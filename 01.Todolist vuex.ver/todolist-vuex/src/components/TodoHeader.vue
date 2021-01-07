@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>나는 뷰엑스의 마스터다.</h1>
+    <h1>나는 뷰엑스의 마스터다2.</h1>
   </header>
 </template>
 
