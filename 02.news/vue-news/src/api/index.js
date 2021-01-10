@@ -29,7 +29,7 @@ function fetchJobList() {
 }
 
 function fetchList(pageName) {
-  return axios.get(`${config.baseUrl}${pageName}`)
+  return axios.get(`${config.baseUrl}${pageName}/1.json`)
 }
 
 
