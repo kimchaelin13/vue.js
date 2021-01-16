@@ -1,31 +1,46 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="username">id:</label>
-      <input id="username" type="text" v-model="username" />
+  <div class="contents">
+    <div class="form-wrapper form-wrapper-sm">
+      <form @submit.prevent="submitForm" class="form">
+        <div>
+          <label for="username">id:</label>
+          <input id="username" type="text" v-model="username" />
+          <p class="validation-text">
+            <!-- 인풋창에 뭘 치고(유저네임 데이터가 있는데, valid하지 않으면 false반환임
+            그걸 반대로 하면 t니까, 즉 둘다 t일때! 보여줘  -->
+            <span class="warning" v-if="!isUsernameValid && username">
+              Please enter an email address
+            </span>
+          </p>
+        </div>
+        <div>
+          <label for="password">pw:</label>
+          <input id="password" type="text" v-model="password" />
+        </div>
+        <!-- disabled : html 속성
+        disabled가 조건에 따라서 붙거나 안붙거나 해야된느데 그때 해야하는게 v-bind속성, 단축 :
+        :disabled = 'true' 
+        isUsernameValid (트루폴스로 나타남)
+        유저네임이 valid하지 않을때 disabled가 표시됨
+        패스워드가 없으면!
+        or조건:둘중에하나라도 유효하지 않으면 disabled
+        Email Validation 정규 표현식 코드 https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript-->
+        <button 
+        :disabled="!isUsernameValid || !password" 
+        type="submit"
+        class="btn"
+        >
+          로그인
+        </button>
+        <p class="log">{{ logMessage }}</p>
+      </form>
     </div>
-    <div>
-      <label for="password">pw:</label>
-      <input id="password" type="text" v-model="password" />
-    </div>
-    <!-- disabled : html 속성
-    disabled가 조건에 따라서 붙거나 안붙거나 해야된느데 그때 해야하는게 v-bind속성, 단축 :
-    :disabled = 'true' 
-    isUsernameValid (트루폴스로 나타남)
-    유저네임이 valid하지 않을때 disabled가 표시됨
-    패스워드가 없으면!
-    or조건:둘중에하나라도 유효하지 않으면 disabled
-    Email Validation 정규 표현식 코드 https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript-->
-    <button :disabled="!isUsernameValid || !password" type="submit">
-      로그인
-    </button>
-    <p>{{ logMessage }}</p>
-  </form>
+  </div>
 </template>
 
 <script>
-import { loginUser } from '@/api/index';
 import { validateEmail } from '@/utils/validation';
+// import { saveAuthToCookie, saveUserToCookie } from '@/utils/cookies'
 
 export default {
   data() {
@@ -53,11 +68,8 @@ export default {
           username: this.username,
           password: this.password,
         };
-        const { data } = await loginUser(userData);
-        console.log(data.user.username);
-        this.$store.commit('setUsername', data.user.username);
-        this.logMessage = `${data.user.username} 님 환영합니다`;
-        //푸쉬:router-link의 자바스크립트 버전임
+        //넘어가서 비동기처리 하고 다음코드진행해야하기 때문에 await붙여줌
+        await this.$store.dispatch('LOGIN',userData)
         this.$router.push('/main');
         // this.initForm();
       } catch (error) {
@@ -77,4 +89,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.btn {
+  color: white;
+}
+</style>

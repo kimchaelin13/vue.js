@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <!-- url이 변경되고 페이지컴포넌트 보여주는 라우터뷰태그 -->
     <AppHeader></AppHeader>
     <router-view></router-view>
@@ -19,5 +19,6 @@ export default {
 </script>
 
 <style>
-
+@import './css/reset.css';
+@import './css/common.css';
 </style>
