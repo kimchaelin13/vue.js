@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>뷰엑스 투두리스트 눈감고도 만들겠어,,,,</h1>
+    <h1>ㅋㅋㅋㅋㅋ,</h1>
   </header>  
 </template>
 
